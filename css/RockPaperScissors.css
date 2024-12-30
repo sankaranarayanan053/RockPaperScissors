@@ -37,11 +37,13 @@ body {
   margin-top: 60px;
 }
 
-.reset-score-button {
+.reset-score-button,
+.auto-play-button {
   padding: 8px 15px;
   font-family: arial;
   border: none;
   font-size: 15px;
   cursor: pointer;
+  margin-right: 5px;
 
 }
