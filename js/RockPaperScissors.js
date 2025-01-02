@@ -1,21 +1,21 @@
 let score = JSON.parse(localStorage.getItem('score')) || {
-  wins : 0,
-  losses : 0,
-  tie : 0
-  };
+  wins: 0,
+  losses: 0,
+  tie: 0
+};
 updateScoreElement();
- 
+
 let isAutoPlaying = false;
 let intervalId;
 
 
-function autoplay(){
+function autoplay() {
   if (!isAutoPlaying) {
     intervalId = setInterval(() => {
       const computerMove = pickComputerMove();
-      playGame(computerMove); 
-    },1000)
-    isAutoPlaying = true; 
+      playGame(computerMove);
+    }, 1000)
+    isAutoPlaying = true;
   }
   else {
     clearInterval(intervalId);
@@ -23,6 +23,48 @@ function autoplay(){
   }
 
 }
+document.querySelector('.js-rock-button').
+  addEventListener('click', () => {
+    playGame('Rock');
+  });
+
+document.querySelector('.js-paper-button').
+  addEventListener('click', () => {
+    playGame('Paper');
+  });
+
+document.querySelector('.js-scissors-button').
+  addEventListener('click', () => {
+    playGame('Scissors');
+  });
+
+document.querySelector('.js-reset-button')
+  .addEventListener('click', () => {
+    score.wins = 0;
+    score.losses = 0;
+    score.tie = 0;
+
+    localStorage.removeItem('score');
+    updateScoreElement();
+  });
+
+
+document.querySelector('.js-auto-play-button')
+  .addEventListener('click', () => {
+    autoplay();
+  })
+
+document.body.addEventListener('keydown', (event) => {
+  if (event.key === 'r') {
+    playGame('Rock');
+  } else if(event.key === 'p'){
+    playGame('Paper');
+  } else if (event.key ==='s'){
+    playGame('Scissors');
+  }
+});
+
+
 
 
 function playGame(playerMove) {
@@ -31,54 +73,54 @@ function playGame(playerMove) {
 
   if (playerMove === 'Scissors') {
     if (computerMove === 'Rock') {
-      result = 'You lose';  
+      result = 'You lose';
     }
     else if (computerMove === 'Paper') {
-      result = 'You won';  
+      result = 'You won';
     }
     else if (computerMove === 'Scissors') {
-      result = 'Tie';  
-    }   
-  } 
-  
+      result = 'Tie';
+    }
+  }
+
   else if (playerMove === 'Paper') {
     if (computerMove === 'Rock') {
-        result = 'You won';  
-      }
-      else if (computerMove === 'Paper') {
-        result = 'Tie';  
-      }
-      else if (computerMove === 'Scissors') {
-        result = 'You lose'  
-     }
-   } 
-   
-   else if (playerMove === 'Rock') {
-     if (computerMove === 'Rock') {
-        result = 'Tie';  
-      }
-      else if (computerMove === 'Paper') {
-        result = 'You lose';  
-      }
-      else if (computerMove === 'Scissors') {
-        result = 'You won'  
-     }  
-   }
+      result = 'You won';
+    }
+    else if (computerMove === 'Paper') {
+      result = 'Tie';
+    }
+    else if (computerMove === 'Scissors') {
+      result = 'You lose'
+    }
+  }
+
+  else if (playerMove === 'Rock') {
+    if (computerMove === 'Rock') {
+      result = 'Tie';
+    }
+    else if (computerMove === 'Paper') {
+      result = 'You lose';
+    }
+    else if (computerMove === 'Scissors') {
+      result = 'You won'
+    }
+  }
 
 
-   if ( result === 'You won') {
-     score.wins += 1; 
-   } else if (result === 'You lose') {
-     score.losses += 1; 
-   } else if (result === 'Tie') {
-     score.tie +=1;  
-   }
+  if (result === 'You won') {
+    score.wins += 1;
+  } else if (result === 'You lose') {
+    score.losses += 1;
+  } else if (result === 'Tie') {
+    score.tie += 1;
+  }
 
-  localStorage.setItem('score',JSON.stringify(score));
+  localStorage.setItem('score', JSON.stringify(score));
 
   updateScoreElement();
 
-  updateMoveElement(playerMove,computerMove);
+  updateMoveElement(playerMove, computerMove);
 
   updateResultElement(result);
 
@@ -89,21 +131,21 @@ function pickComputerMove() {
 
   let computerMove = '';
 
-  if (randomnumber1 >= 0 && randomnumber1 < 1/3) {
-    computerMove = 'Rock';   
+  if (randomnumber1 >= 0 && randomnumber1 < 1 / 3) {
+    computerMove = 'Rock';
   }
-  else if (randomnumber1 >= 1/3 && randomnumber1 < 2/3) {
+  else if (randomnumber1 >= 1 / 3 && randomnumber1 < 2 / 3) {
     computerMove = 'Paper';
   }
-  else if (randomnumber1 >= 2/3 && randomnumber1 < 3) {
+  else if (randomnumber1 >= 2 / 3 && randomnumber1 < 3) {
     computerMove = 'Scissors';
-  } 
-  return computerMove;     
+  }
+  return computerMove;
 }
 
 function updateScoreElement() {
   document.querySelector('.js-score').
-   innerHTML = `Wins: ${score.wins} losses: ${score.losses} tie : ${score.tie}`;
+    innerHTML = `Wins: ${score.wins} losses: ${score.losses} tie : ${score.tie}`;
 }
 
 function updateMoveElement(playerMove, computerMove) {
@@ -116,5 +158,5 @@ function updateMoveElement(playerMove, computerMove) {
 }
 
 function updateResultElement(result) {
-  document.querySelector('.js-result').innerHTML = `${result}`;  
+  document.querySelector('.js-result').innerHTML = `${result}`;
 }
